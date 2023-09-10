@@ -1,0 +1,204 @@
+<style>
+  :root {
+    --form-bg: rgb(30, 30, 30);
+    --form-input: rgb(60, 60, 60);
+    --login-btn: rgb(3, 169, 244);
+
+  }
+
+  p {
+    margin: 0;
+  }
+
+  h1 {
+    margin: 5px;
+  }
+
+  .signin {
+    position: relative;
+    width: clamp(200px, 35vw, 400px);
+    background: var(--form-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    border-radius: 4px;
+  }
+
+  .signin .content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .signin .content h2 {
+    font-size: 2em;
+    margin: 0;
+    color: var(--login-btn);
+    text-transform: uppercase;
+  }
+
+  .signin .content form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .signin .content form .inputBox {
+    position: relative;
+    width: 100%;
+  }
+
+  .signin .content form .inputBox input {
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    background: var(--form-input);
+    border: none;
+    outline: none;
+    padding: 25px 10px 7.5px;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1em;
+  }
+
+  .signin .content form .inputBox i {
+    position: absolute;
+    left: 0;
+    padding: 1em 1em;
+    font-style: normal;
+    color: #aaa;
+    transition: 0.5s;
+    pointer-events: none;
+  }
+
+  .signin .content form .inputBox input:focus~i,
+  .signin .content form .inputBox input:valid~i {
+    transform: translateY(-0.25em);
+    font-size: 0.8em;
+    color: #fff;
+  }
+
+  .signin .content form .links {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .signin .content form .links a {
+    color: #fff;
+    text-decoration: none;
+    color: var(--login-btn);
+    font-weight: 600;
+  }
+
+
+  .signin .content form .inputBox input[type="submit"] {
+    padding: 10px;
+    background: var(--login-btn);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.35em;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:active {
+    opacity: 0.6;
+  }
+</style>
+
+<div class="signin">
+  <div class="content">
+    <h2>Sign Up</h2>
+    <form id="form" action="/api/auth/register" method="POST">
+      <div class="inputBox">
+        <input type="text" id="username" required>
+        <i>Username</i>
+      </div>
+      <div class="inputBox">
+        <input type="password" id="password" required>
+        <i>Password</i>
+      </div>
+      <div class="inputBox">
+        <input type="password" id="passwordConfirm" required>
+        <i>Confirm Password</i>
+      </div>
+      <div class="links">
+        <a href="/login">Sign In</a>
+      </div>
+      <div class="errorMessage">
+        <p id="errorMessage"></p>
+      </div>
+      <div class="inputBox">
+        <input type="submit" id="submit" value="Register">
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  console.clear(); // clear console for debugging
+  document.getElementById("submit").addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log("Sending data");
+
+    let data = {
+      username: document.getElementById("username").value,
+      password: document.getElementById("password").value,
+      passwordConfirm: document.getElementById("passwordConfirm").value,
+    }
+
+    if (data.username.length >= 16) {
+      document.getElementById("errorMessage").innerText = "Username must be shorter than 16 character!"
+    }
+
+    if (data.password !== data.passwordConfirm) {
+      document.getElementById("errorMessage").innerText = "Password mismatch!"
+    }
+
+    if (data.password.length < 8) {
+      document.getElementById("errorMessage").innerText = "Password must be longer than 8 character!"
+    }
+
+    const XHR = new XMLHttpRequest();
+    const urlEncodedDataPairs = [];
+    // Turn the data object into an array of URL-encoded key/value pairs.
+    for (const [name, value] of Object.entries(data)) {
+      urlEncodedDataPairs.push(
+        `${encodeURIComponent(name)}=${encodeURIComponent(value)}`
+      );
+    }
+
+    const urlEncodedData = urlEncodedDataPairs.join("&").replace(/%20/g, "+");
+
+    XHR.addEventListener("load", (event) => {
+      let response = JSON.parse(event.currentTarget.response)
+      if (response.status && response.status >= 400 && response.status <= 499)
+        return document.getElementById("errorMessage").innerText = response.message;
+      if (!response.status || response.status !== 200) return somethingWentWrong();
+      window.location.href = "/";
+    });
+
+    XHR.addEventListener("error", (event) => {
+      console.log(event)
+      return somethingWentWrong();
+    });
+
+    XHR.open("POST", "/api/auth/register");
+    XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    XHR.send(urlEncodedData);
+  });
+
+  function somethingWentWrong() {
+    document.getElementById("errorMessage").innerText = "Something went wrong!"
+  }
+
+</script>

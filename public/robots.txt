@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://contact.tawan475.dev/
+

@@ -1,0 +1,37 @@
+<style>
+</style>
+
+<span>
+  Hello, <%= locals.username %>
+  <input type="submit" id="submit" value="Logout">
+</span>
+
+
+<script>
+  document.getElementById("submit").addEventListener("click", (e) => {
+    e.preventDefault();
+    console.log("Sending data");
+    const XHR = new XMLHttpRequest();
+
+    XHR.addEventListener("load", (event) => {
+      let response = JSON.parse(event.currentTarget.response)
+      if (response.status && response.status >= 400 && response.status <= 499)
+        return document.getElementById("errorMessage").innerText = response.message;
+      if (!response.status || response.status !== 200) return somethingWentWrong();
+      window.location.href = "/";
+    });
+
+    XHR.addEventListener("error", (event) => {
+      console.log(event)
+      return somethingWentWrong();
+    });
+
+    XHR.open("POST", "/api/auth/logout");
+    XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    XHR.send();
+  });
+
+  function somethingWentWrong() {
+    document.getElementById("errorMessage").innerText = "Something went wrong!"
+  }
+</script>

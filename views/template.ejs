@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bcryptjs/2.4.3/bcrypt.min.js" integrity="sha512-DNI/FJdkfyeuPUal7lDkRVg0mFY2n4IZJJYqPbQWLL0COxLi6G6nmf5gr1vW1Bd4wYC09hOvZVsSclfXxUTU/w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.socket.io/4.6.2/socket.io.min.js"></script>
+  <link rel='icon' href='/favicon.ico' type='image/x-icon' />
+
+  <title id="siteTitle">tawan475.dev</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script>
+    $(document).ready(function () {
+      $("#siteTitle").html(window.location.hostname);
+      $("#siteName").html(window.location.hostname);
+    });
+  </script>
+</head>
+
+<body>
+  <nav>
+    <div>
+      <p class="rainbow rainbow_text_animated" id="siteName"></p>
+      <!-- <table align="center">
+        <td><a href="/">Index</a></td>
+        <td><a href="/file">Files</a></td>
+        <td><a href="/upload">Upload</a></td>
+        <td><a href="/tools">Tools</a></td>
+      </table> -->
+    </div>
+  </nav>
+
+  <main align="center">
+    <%- content %>
+  </main>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+:root {
+	--bg: rgb(10, 10, 10);
+	--main-border-radius: 5px;
+	--accent-1: rgb(3, 169, 244);
+}
+
+body {
+	background-color: var(--bg);
+	margin: 0px;
+	padding: 0px;
+}
+
+#siteName {
+	margin: 15px;
+	font-size: clamp(15px, 5vw, 5em);
+}
+
+.rainbow {
+	text-align: center;
+	font-size: 275%;
+	font-family: monospace;
+	letter-spacing: 5px;
+}
+
+.rainbow_text_animated {
+	background: linear-gradient(to right, #6666ff, #0099ff, #00ff00, #ff3399, #6666ff);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	animation: rainbow_animation 8s ease-in-out infinite;
+	background-size: 500% 100%;
+}
+
+main {
+	max-width: max-content;
+	padding: 25px;
+
+	position: relative;
+	background: var(--bg);
+	border-radius: var(--main-border-radius);
+
+	text-align: center;
+	word-wrap: normal;
+	color: white;
+	font-family: "Anek Latin",
+		sans-serif;
+	font-weight: 400;
+	margin: auto;
+
+	&:after {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: -1;
+		margin: calc(-1 * var(--main-border-radius));
+		border-radius: inherit;
+		background-image: linear-gradient(to right, #6666ff, #0099ff, #00ff00, #ff3399, #6666ff);
+		animation: rainbow_animation 16s ease-in-out infinite;
+		background-size: 500% 100%;
+	}
+}
+
+@keyframes rainbow_animation {
+
+	0%,
+	100% {
+		background-position: 0 0;
+	}
+
+	50% {
+		background-position: 100% 0;
+	}
+}
